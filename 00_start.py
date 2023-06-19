@@ -2,7 +2,20 @@ from dotenv import load_dotenv
 from langchain.embeddings import OpenAIEmbeddings
 import os
 
+
 import openai
+
+
+import ssl
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+
 # from langchain.embeddings import OpenAIEmbeddings
 # https://www.youtube.com/watch?v=DYOU_Z0hAwo&list=PLgJWF7IEIkmJa3JhjAOvMQF1u3aCw2FmP&index=4&ab_channel=SamuelChan
 load_dotenv()

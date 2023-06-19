@@ -9,7 +9,7 @@ from langchain import OpenAI
 import os
 import nltk
 
-nltk.download()
+# nltk.download()
 load_dotenv()
 
 import openai
@@ -19,14 +19,15 @@ openai.api_version = "2022-12-01"
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
-embeddings = OpenAIEmbeddings()
+embeddings = OpenAIEmbeddings(chunk_size=1)
 
 # loader = TextLoader('news/summary.txt')
-loader = DirectoryLoader('news', glob="**/*.txt")
+# loader = DirectoryLoader('news', glob="**/*.txt")
+loader = DirectoryLoader('news', glob="**/result.txt")
 
 documents = loader.load()
 print(len(documents))
-text_splitter = CharacterTextSplitter(chunk_size=2500, chunk_overlap=0)
+text_splitter = CharacterTextSplitter(chunk_size=5000, chunk_overlap=0)
 texts = text_splitter.split_documents(documents)
 # print(texts)
 
