@@ -6,8 +6,19 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 from langchain import OpenAI
+import os
+import nltk
 
+nltk.download()
 load_dotenv()
+
+import openai
+openai.api_type = "azure"
+openai.api_base = os.getenv('API_BASE')
+openai.api_version = "2022-12-01"
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+
 embeddings = OpenAIEmbeddings()
 
 # loader = TextLoader('news/summary.txt')

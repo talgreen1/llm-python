@@ -4,7 +4,7 @@ import os
 
 import openai
 # from langchain.embeddings import OpenAIEmbeddings
-
+# https://www.youtube.com/watch?v=DYOU_Z0hAwo&list=PLgJWF7IEIkmJa3JhjAOvMQF1u3aCw2FmP&index=4&ab_channel=SamuelChan
 load_dotenv()
 openai.api_type = "azure"
 openai.api_base = os.getenv('API_BASE')
