@@ -15,6 +15,7 @@ openai.api_type = "azure"
 openai.api_base = os.getenv('API_BASE')
 openai.api_version = "2022-12-01"
 openai.api_key = os.getenv('OPENAI_API_KEY')
+DEPLOYMENT_NAME = 'curie-alex-test'
 
 with open('./news/result.txt') as f:
     text = f.read()
@@ -25,10 +26,15 @@ text = text_splitter.split_text(text)
 print(text)
 
 embeddings = OpenAIEmbeddings()
-vectorstore = Chroma.from_texts(text, embeddings)
+vectorstore = Chroma.from_texts([text[0]], embeddings)
 chain = RetrievalQA.from_chain_type(
-    llm=AzureOpenAI(model_kargs={'engine': 'text-davinci-002'}), retriver=vectorstore.as_retriever(),
+    llm=AzureOpenAI(model_kwargs={'engine': 'curie-alex-test'}), retriever=vectorstore.as_retriever(search_kwargs={"k": 1}),
                     chain_type='stuff')
+
+# chain = RetrievalQA.from_chain_type(
+#     llm=AzureOpenAI(model_kwargs={'engine': 'text-davinci-002'}),
+#     chain_type="stuff",
+#     retriever=vectorstore.as_retriever())
 
 query = "What are the effects of legislations surrounding emissions on the Australia coal market?"
 res = chain.run(query)
