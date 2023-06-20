@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 
 from langchain.document_loaders import DirectoryLoader, TextLoader
+from langchain.llms import AzureOpenAI
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
@@ -11,7 +12,7 @@ import nltk
 
 # nltk.download()
 load_dotenv()
-
+# https://www.youtube.com/watch?v=U0sJ3uVtylM&ab_channel=ShwetaLodha
 import openai
 openai.api_type = "azure"
 openai.api_base = os.getenv('API_BASE')
@@ -33,7 +34,8 @@ texts = text_splitter.split_documents(documents)
 
 docsearch = Chroma.from_documents(texts, embeddings)
 qa = RetrievalQA.from_chain_type(
-    llm=OpenAI(), 
+    # llm=OpenAI(),
+    llm=AzureOpenAI(model_kwargs={'engine':'text-davinci-002'}),
     chain_type="stuff", 
     retriever=docsearch.as_retriever()
 )
