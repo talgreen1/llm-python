@@ -25,10 +25,10 @@ text = text_splitter.split_text(text)
 
 print(text)
 
-embeddings = OpenAIEmbeddings()
-vectorstore = Chroma.from_texts([text[0]], embeddings)
+embeddings = OpenAIEmbeddings(chunk_size = 1)
+vectorstore = Chroma.from_texts(text, embeddings)
 chain = RetrievalQA.from_chain_type(
-    llm=AzureOpenAI(model_kwargs={'engine': 'curie-alex-test'}), retriever=vectorstore.as_retriever(search_kwargs={"k": 1}),
+    llm=AzureOpenAI(model_kwargs={'engine': 'text-davinci-003'}), retriever=vectorstore.as_retriever(search_kwargs={"k": 1}),
                     chain_type='stuff')
 
 # chain = RetrievalQA.from_chain_type(
